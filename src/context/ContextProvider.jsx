@@ -4,8 +4,30 @@ import data from '../data/data.json'
 
 const Context = createContext()
 
+const formatter = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'})
+const DIVISONS = [
+  { amount: 60, name: 'seconds' },
+  { amount: 60, name: 'minutes' },
+  { amount: 24, name: 'hours' },
+  { amount: 7, name: 'days' },
+  { amount: 4.34524, name: 'weeks' },
+  { amount: 12, name: 'months' },
+  { amount: Number.POSITIVE_INFINITY, name: 'years' }
+]
+
 export function useData() {
   return useContext(Context)
+}
+
+export function useDateFormatterToAgo(date) {
+  let duration = (date - new Date()) / 1000
+  for (let i = 0; i < DIVISONS.length; i++) {
+    const division = DIVISONS[i]
+    if (Math.abs(duration) < division.amount) {
+      return formatter.format(Math.round(duration), division.name)
+    }
+    duration /= division.amount
+  }
 }
 
 function ContextProvider({ children }) {
@@ -19,7 +41,7 @@ function ContextProvider({ children }) {
     let newComment = {
       "id": Date.now(),
       "content": message,
-      "createdAt": 'now',
+      "createdAt": new Date(),
       "score": 0,
       "user": currentUser,
       'replies': [],
@@ -38,6 +60,34 @@ function ContextProvider({ children }) {
     }))
   }
 
+  function updateComment(message, commentId, parentId) {
+    let replyToAt = message.split(' ')[0].toString()
+    let replyingTo = message.startsWith('@') ? replyToAt.slice(1, replyToAt.length) : ''
+    message = message.startsWith('@') ? message.slice(replyingTo.length + 1, message.length) : message
+
+    if (parentId === 0) {
+      setComments(oldComments => oldComments.map(comment => {
+        if (comment.id === commentId) {
+          return { ...comment, 'content': message, 'replyingTo': replyingTo }
+        }
+        return comment
+      }))
+      console.log(comments)
+    } else {
+      setComments(oldComments => oldComments.map(comment => {
+        if (comment.id === parentId) {
+          comment['replies'] = comment['replies'].map(reply => {
+            if (reply.id === commentId) {
+              return { ...reply, 'content': message, 'replyingTo': replyingTo }
+            }
+            return reply
+          })
+        }
+        return comment
+      }))
+    }
+  }
+
   function deleteComment(commentId, parentId) {
     if (parentId === 0) {
       setComments(oldComments => oldComments.filter(comment => comment.id !== commentId))
@@ -52,7 +102,7 @@ function ContextProvider({ children }) {
   }
 
   return (
-    <Context.Provider value={{ currentUser, comments, addNewComment, deleteComment }}>
+    <Context.Provider value={{ currentUser, comments, addNewComment, deleteComment, updateComment }}>
       {children}
     </Context.Provider>
   )

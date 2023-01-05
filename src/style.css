@@ -233,7 +233,7 @@ body {
 
 .modal{
     position: fixed;
-    transform: translateY(150%);
+    transform: translateY(50%);
     margin-inline: auto;
     padding: 1.5rem;
     border: none;
