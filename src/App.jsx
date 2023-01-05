@@ -1,23 +1,18 @@
 import './style.css'
-import data from './data/data.json'
-import CommentList from './components/CommentList'
-import CurrentUserProvider from './context/CurrentUserProvider'
+import ContextProvider from './context/ContextProvider'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import CommentForm from './components/CommentForm'
+import Comments from './pages/Comments'
 
 library.add(fas)
-
-const comments = data['comments']
 
 function App() {
   return (
     <main>
       <section className="comment__container">
-        <CurrentUserProvider>
-          <CommentList comments={comments} />
-          <CommentForm action={'Send'}/>
-        </CurrentUserProvider>
+        <ContextProvider>
+          <Comments />
+        </ContextProvider>
       </section>
     </main>
   );
