@@ -1,37 +1,17 @@
 
+import { useEffect } from 'react'
 import { createContext, useContext, useState } from 'react'
 import data from '../data/data.json'
 
 const Context = createContext()
 
-const formatter = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'})
-const DIVISONS = [
-  { amount: 60, name: 'seconds' },
-  { amount: 60, name: 'minutes' },
-  { amount: 24, name: 'hours' },
-  { amount: 7, name: 'days' },
-  { amount: 4.34524, name: 'weeks' },
-  { amount: 12, name: 'months' },
-  { amount: Number.POSITIVE_INFINITY, name: 'years' }
-]
-
 export function useData() {
   return useContext(Context)
 }
 
-export function useDateFormatterToAgo(date) {
-  let duration = (date - new Date()) / 1000
-  for (let i = 0; i < DIVISONS.length; i++) {
-    const division = DIVISONS[i]
-    if (Math.abs(duration) < division.amount) {
-      return formatter.format(Math.round(duration), division.name)
-    }
-    duration /= division.amount
-  }
-}
 
 function ContextProvider({ children }) {
-  const [comments, setComments] = useState(data.comments)
+  const [comments, setComments] = useState(JSON.parse(localStorage.getItem('comments')) || data.comments)
   const currentUser = data['currentUser']
 
   function addNewComment(message, parentId) {
@@ -42,7 +22,7 @@ function ContextProvider({ children }) {
       "id": Date.now(),
       "content": message,
       "createdAt": new Date(),
-      "score": 0,
+      "score": [],
       "user": currentUser,
       'replies': [],
       "parentId": parentId,
@@ -72,7 +52,6 @@ function ContextProvider({ children }) {
         }
         return comment
       }))
-      console.log(comments)
     } else {
       setComments(oldComments => oldComments.map(comment => {
         if (comment.id === parentId) {
@@ -101,8 +80,33 @@ function ContextProvider({ children }) {
     }
   }
 
+  function voteComment(commentId, parentId, updatedScores) {
+    if (parentId === 0) {
+      setComments(oldComments => oldComments.map(comment => {
+        if (comment.id === commentId) {
+          return { ...comment, 'score': updatedScores }
+        }
+        return comment
+      }))
+    } else {
+      setComments(oldComments => oldComments.map(comment => {
+        if (comment.id === parentId) {
+          comment['replies'] = comment['replies'].map(reply => {
+            if (reply.id === commentId) {
+              return { ...reply, 'score': updatedScores }
+            }
+            return reply
+          })
+        }
+        return comment
+      }))
+    }
+  }
+  useEffect(()=>{
+    localStorage.setItem('comments', JSON.stringify(comments))
+  }, [comments])
   return (
-    <Context.Provider value={{ currentUser, comments, addNewComment, deleteComment, updateComment }}>
+    <Context.Provider value={{ currentUser, comments, addNewComment, deleteComment, updateComment, voteComment }}>
       {children}
     </Context.Provider>
   )

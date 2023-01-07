@@ -9,7 +9,7 @@ function Comments() {
   return (
     <>
       <CommentList comments={comments} />
-      <CommentForm action={'Send'} replyingTo={''} addNewComment={addNewComment} parentId={0} />
+      <CommentForm action={'Send'} replyingTo={''} autofocus={false} addNewComment={addNewComment} parentId={0} />
     </>
   )
 }

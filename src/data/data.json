@@ -11,7 +11,56 @@
       "id": 1,
       "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
       "createdAt": "Wed Nov 26 2022 16:04:31 GMT+0530 (India Standard Time)",
-      "score": ["freddie", "Florine", "Jacinto", "Lindsay", " Latonya","Estella","Merrill","Jillian","Cynthia","Jerrold","Forrest","Corrine"],
+      "score": [
+        {
+          "username": "user1",
+          "vote": 1
+        },
+        {
+          "username": "user2",
+          "vote": 1
+        },
+        {
+          "username": "user3",
+          "vote": 1
+        },
+        {
+          "username": "user4",
+          "vote": 1
+        },
+        {
+          "username": "user5",
+          "vote": 1
+        },
+        {
+          "username": "user6",
+          "vote": 1
+        },
+        {
+          "username": "user7",
+          "vote": 1
+        },
+        {
+          "username": "user8",
+          "vote": 1
+        },
+        {
+          "username": "user9",
+          "vote": 1
+        },
+        {
+          "username": "user10",
+          "vote": 1
+        },
+        {
+          "username": "user11",
+          "vote": 1
+        },
+        {
+          "username": "user12",
+          "vote": 1
+        }
+      ],
       "user": {
         "image": {
           "png": "./images/avatars/image-amyrobson.png",
@@ -19,15 +68,35 @@
         },
         "username": "amyrobson"
       },
-      "replies": [
-      ],
+      "replies": [],
       "parentId": 0
     },
     {
       "id": 2,
       "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
       "createdAt": "Wed Dec 14 2022 16:04:31 GMT+0530 (India Standard Time)",
-      "score":  ["freddie", "Florine", "Jacinto", "Lindsay", " Latonya"],
+      "score": [
+        {
+          "username": "user1",
+          "vote": 1
+        },
+        {
+          "username": "user2",
+          "vote": 1
+        },
+        {
+          "username": "user3",
+          "vote": 1
+        },
+        {
+          "username": "user4",
+          "vote": 1
+        },
+        {
+          "username": "user5",
+          "vote": 1
+        }
+      ],
       "user": {
         "image": {
           "png": "./images/avatars/image-maxblagun.png",
@@ -40,7 +109,24 @@
           "id": 3,
           "content": "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
           "createdAt": "Wed Dec 21 2022 16:04:31 GMT+0530 (India Standard Time)",
-          "score":  ["freddie", "Florine", "Jacinto", "Lindsay"],
+          "score": [
+            {
+              "username": "user1",
+              "vote": 1
+            },
+            {
+              "username": "user2",
+              "vote": 1
+            },
+            {
+              "username": "user3",
+              "vote": 1
+            },
+            {
+              "username": "user4",
+              "vote": 1
+            }
+          ],
           "replyingTo": "maxblagun",
           "user": {
             "image": {
@@ -55,7 +141,16 @@
           "id": 4,
           "content": "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
           "createdAt": "Wed Dec 26 2022 16:04:31 GMT+0530 (India Standard Time)",
-          "score":  ["freddie", "Florine"],
+          "score": [
+            {
+              "username": "user1",
+              "vote": 1
+            },
+            {
+              "username": "user2",
+              "vote": 1
+            }
+          ],
           "replyingTo": "ramsesmiron",
           "user": {
             "image": {
