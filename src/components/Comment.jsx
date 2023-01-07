@@ -4,12 +4,15 @@ import { useData } from '../context/ContextProvider'
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 import { calculateScore, dateFormatterToAgo } from '../utils/commentUtilFunctions';
+import Modal from './Modal';
 
 function Comment({ comment }) {
     const { currentUser, addNewComment, deleteComment, updateComment, voteComment } = useData();
     const [isReplying, setIsReplying] = useState(false)
     const [isEditingReply, setIsEditingReply] = useState(false)
     const [updateMessage, setUpdateMessage] = useState(comment.content)
+    const [openModal, setOpenModal] = useState(false)
+
     function onCreateComment(message, parentId) {
         addNewComment(message, parentId)
         setIsReplying(false)
@@ -45,6 +48,9 @@ function Comment({ comment }) {
         })
         voteComment(comment.id, comment.parentId !== 0 ? comment.parentId : 0, updatedScores)
     }
+    function showDeleteModal(){
+        setOpenModal(true)
+    }
     return (
         <>
             <div className='comment__card'>
@@ -72,7 +78,7 @@ function Comment({ comment }) {
                 <div className="comment__controls">
                     {comment.user['username'] === currentUser.username ?
                         <>
-                            <button className="comment__btn controls__btn controls__btn--del" onClick={() => onDeleteComment(comment.id, comment.parentId)}>
+                            <button className="comment__btn controls__btn controls__btn--del" onClick={() => showDeleteModal(comment.id, comment.parentId)}>
                                 <FontAwesomeIcon icon="fa-solid fa-trash" />Delete</button>
                             <button className="comment__btn controls__btn" onClick={() => setIsEditingReply(oldvalue => !oldvalue)}>
                                 <FontAwesomeIcon icon="fa-solid fa-pen" />Edit</button>
@@ -94,6 +100,7 @@ function Comment({ comment }) {
                     </div>
                 </div>
             )}
+            <Modal open={openModal} setOpenModal={setOpenModal} onDeleteComment={onDeleteComment} commentId={comment.id} parentId={comment.parentId}/>
         </>
     )
 }
